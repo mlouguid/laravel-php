@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+
+  php:
+    image: laravelapp:latest
+    ports:
+      - "9000:9000"
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    networks:
+      - networkapp
+
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./:/var/www/html
+    networks:
+      - networkapp
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: marouane
+      MYSQL_USER: marouane
+      MYSQL_PASSWORD: marouane
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - networkapp
+
+networks:
+  networkapp:
+    driver: overlay
+
