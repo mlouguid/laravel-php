@@ -67,18 +67,16 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-Stack Laravel & Dockerfile PHP
+#Stack Laravel & Dockerfile PHP
 
 
-Les étapes pour démarrer une stack Laravel :
+#Les étapes pour démarrer une stack Laravel :
 
 Dockerfile : laravelapp
 FROM php:8.2-fpm
-
-# Set working directory
+// Set working directory
 WORKDIR /var/www/html
-
-# Install dependencies
+//Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -95,44 +93,35 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libgd-dev \
     libxml2-dev # Add libxml2-dev
-
-# Clear cache
+// Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install extensions
+//Install extensions
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl xml && \
     docker-php-ext-configure gd --with-external-gd && \
     docker-php-ext-install gd
-
-# Install composer
+// Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Add user for laravel application
-#RUN groupadd -g 1000 www-data && \
- #   useradd -u 1000 -ms /bin/bash -g www-data www-data
-
-# Copy existing application directory contents
+// Add user for laravel application
+RUN groupadd -g 1000 www-data && \
+useradd -u 1000 -ms /bin/bash -g www-data www-data
+//Copy existing application directory contents
 COPY . /var/www/html
-
-# Copy existing application directory permissions
+//Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www/html
-
-# Change current user to www
+//Change current user to www
 USER www-data
-
-# Expose port 9000 and start php-fpm server
+//Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
 
-Commande line
-
+#Commande line
 
 $docker build -t laravelapp .
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
 
-- Portainer.yml
+# Portainer.yml
 
 
 
@@ -167,7 +156,7 @@ volumes:
 
 ---------------------------------------------------------------------------------------------------
 
- laravel-app.yml
+ #laravel-app.yml
 
 
 version: '3.8'
@@ -214,17 +203,17 @@ networks:
   networkapp:
     driver: overlay
 
-Commande line
+#Commande line
 $docker stack deploy -c laravel-app.yml laravel-app
 
 
  
 
-You can use the numeric UID (User ID) and GID (Group ID) instead. To find out the UID and GID for the user www inside the container, you can run the following command:
+#You can use the numeric UID (User ID) and GID (Group ID) instead. To find out the UID and GID for the user www inside the container, you can run the following command:
 
 
 docker exec -u 1000:1000 container-id id
-This will show the UID and GID. Then, you can use these values to set the ownership:
+#This will show the UID and GID. Then, you can use these values to set the ownership:
 
 
 sudo chown -R 1000:1000 /var/www/html
@@ -234,7 +223,7 @@ $ composer install
 
 $composer update
 
-deployer app-key laravel :
+#deployer app-key laravel :
 
 $cp .env.example .env
 
