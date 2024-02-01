@@ -67,10 +67,10 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-#Stack Laravel & Dockerfile PHP
+# Stack Laravel & Dockerfile PHP
 
 
-#Les étapes pour démarrer une stack Laravel :
+# Les étapes pour démarrer une stack Laravel :
 
 Dockerfile : laravelapp
 FROM php:8.2-fpm
@@ -156,7 +156,7 @@ volumes:
 
 ---------------------------------------------------------------------------------------------------
 
- #laravel-app.yml
+ # laravel-app.yml
 
 
 version: '3.8'
@@ -203,17 +203,17 @@ networks:
   networkapp:
     driver: overlay
 
-#Commande line
+# Commande line
 $docker stack deploy -c laravel-app.yml laravel-app
 
 
  
 
-#You can use the numeric UID (User ID) and GID (Group ID) instead. To find out the UID and GID for the user www inside the container, you can run the following command:
+# You can use the numeric UID (User ID) and GID (Group ID) instead. To find out the UID and GID for the user www inside the container, you can run the following command:
 
 
 docker exec -u 1000:1000 container-id id
-#This will show the UID and GID. Then, you can use these values to set the ownership:
+# This will show the UID and GID. Then, you can use these values to set the ownership:
 
 
 sudo chown -R 1000:1000 /var/www/html
@@ -223,7 +223,7 @@ $ composer install
 
 $composer update
 
-#deployer app-key laravel :
+# deployer app-key laravel :
 
 $cp .env.example .env
 
